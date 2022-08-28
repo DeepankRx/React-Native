@@ -31,7 +31,9 @@ export default function ThriftShop() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Profile" component={Profile} />
+          {isLoggedIn ? (
+            <Stack.Screen name="Profile" component={Profile} />
+          ) : null}
         </Stack.Navigator>
         {/* <HomeScreen /> */}
       </SafeAreaView>

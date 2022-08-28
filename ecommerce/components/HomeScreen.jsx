@@ -1,12 +1,33 @@
-import { ImageBackground, Platform, Text } from 'react-native';
-import React from 'react';
+import {
+  ImageBackground,
+  Platform,
+  Text,
+  ScrollView,
+  View,
+  Box,
+  StyleSheet,
+} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Card from '../ui/Card';
 import { Stack, Button } from '@react-native-material/core';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 const HomeScreen = ({ navigation }) => {
   const handlePress = (route) => {
     navigation.navigate(route);
   };
+  const [products, setProducts] = useState([]);
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  useEffect(() => {
+    async function getProducts() {
+      const response = await axios.get(
+        'http://192.168.242.78:5000/api/product/getAllProducts'
+      );
+      setProducts(response.data.products);
+      console.log(response.data.products);
+    }
+    getProducts();
+  }, [isLoggedIn]);
   return !isLoggedIn ? (
     <ImageBackground
       source={require('../assets/bg.jpg')}
@@ -47,8 +68,18 @@ const HomeScreen = ({ navigation }) => {
       </Stack>
     </ImageBackground>
   ) : (
-    <Text>You are not logged in</Text>
+    <ScrollView>
+      {products.map((product, i = 0) => (
+        <Card key={product._id} product={product} />
+      ))}
+    </ScrollView>
   );
 };
+
+const styles = StyleSheet({
+  Box: {
+    backgroundColor: '#ff1012',
+  },
+});
 
 export default HomeScreen;
