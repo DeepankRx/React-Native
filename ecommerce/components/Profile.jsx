@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, Image } from 'react-native';
-import { useSelector ,useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { IconButton, Button, Box, Stack } from '@react-native-material/core';
 import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 import { setLoggedIn } from '../redux/loginReducer';
+import { useNavigation } from '@react-navigation/native';
 const Profile = () => {
+  const navigation = useNavigation();
   const [revealed, setRevealed] = useState(false);
-  const User = useSelector((state) => state.user);
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
-  const dispatch = useDispatch();
+  const User = useSelector((state) => state.login.user);
   console.log(User);
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const dispatch = useDispatch();
   return (
     <View style={{ flex: 1 }}>
       {/* <Image
@@ -57,15 +59,24 @@ const Profile = () => {
         <IconButton
           icon={() => (
             <Icon
+              name="cart"
+              size={30}
+              color="#ff4081"
+              style={{ marginTop: 20 }}
+            />
+          )}
+          onPress={() => navigation.navigate('Cart')}
+        />
+        <IconButton
+          icon={() => (
+            <Icon
               name="logout"
               size={30}
               color="#ff4081"
               style={{ marginTop: 20 }}
             />
           )}
-          onPress={() => 
-            dispatch(setLoggedIn(false))
-          }
+          onPress={() => dispatch(setLoggedIn(false))}
         />
       </Stack>
     </View>

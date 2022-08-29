@@ -1,12 +1,4 @@
-import {
-  ImageBackground,
-  Platform,
-  Text,
-  ScrollView,
-  View,
-  Box,
-  StyleSheet,
-} from 'react-native';
+import { ImageBackground, Platform, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Card from '../ui/Card';
@@ -17,14 +9,13 @@ const HomeScreen = ({ navigation }) => {
     navigation.navigate(route);
   };
   const [products, setProducts] = useState([]);
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   useEffect(() => {
     async function getProducts() {
       const response = await axios.get(
-        'http://192.168.242.78:5000/api/product/getAllProducts'
+        'https://thrift-shop-app.herokuapp.com/api/product/getAllProducts'
       );
       setProducts(response.data.products);
-      console.log(response.data.products);
     }
     getProducts();
   }, [isLoggedIn]);
@@ -70,16 +61,14 @@ const HomeScreen = ({ navigation }) => {
   ) : (
     <ScrollView>
       {products.map((product, i = 0) => (
-        <Card key={product._id} product={product} />
+        <Card
+          key={product._id}
+          product={product}
+          onPress={() => navigation.navigate('SingleProduct', { id })}
+        />
       ))}
     </ScrollView>
   );
 };
-
-const styles = StyleSheet({
-  Box: {
-    backgroundColor: '#ff1012',
-  },
-});
 
 export default HomeScreen;

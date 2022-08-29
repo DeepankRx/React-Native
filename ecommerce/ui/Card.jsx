@@ -1,6 +1,17 @@
-import { View, Image, Text, Platform } from 'react-native';
+import {
+  View,
+  Image,
+  Text,
+  Platform,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import { Button } from '@react-native-material/core';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { addToCart } from '../redux/cartReducer';
 const Card = ({ product }) => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
   return (
     <View
       style={{
@@ -9,11 +20,19 @@ const Card = ({ product }) => {
         marginTop: '5%',
       }}
     >
-      <Image
-        source={{ uri: product.image }}
-        style={{ width: '100%', height: 200 }}
-      />
-      <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{product.name}</Text>
+      <TouchableWithoutFeedback
+        onPress={() =>
+          navigation.navigate('SingleProduct', { id: product._id })
+        }
+      >
+        <Image
+          source={{ uri: product.image }}
+          style={{ width: '100%', height: 200, borderRadius: 100 }}
+        />
+      </TouchableWithoutFeedback>
+      <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FA9494' }}>
+        {product.name}
+      </Text>
       <Text style={{ fontSize: 20 }}>{product.price}</Text>
       <Text style={{ fontSize: 20 }}>{product.description}</Text>
       <Text style={{ fontSize: 20 }}>{product.category}</Text>
@@ -23,9 +42,8 @@ const Card = ({ product }) => {
         color="#ff4081"
         style={{
           backgroundColor: '#fff',
-          marginTop: Platform.OS === 'android' ? 350 : 0,
-          marginRight: Platform.OS === 'android' ? 10 : 0,
         }}
+        onPress={() => dispatch(addToCart({ product }))}
       />
     </View>
   );

@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { TextInput } from '@react-native-material/core';
 import { Stack, Button } from '@react-native-material/core';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { setLoggedIn, setUser } from '../redux/loginReducer';
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state);
+  const { isLoggedIn } = useSelector((state) => state.login);
   console.log(isLoggedIn);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,7 +19,7 @@ const Login = ({ navigation }) => {
         alert('Please enter email and password');
       }
       const response = await axios.post(
-        'http://192.168.242.78:5000/api/user/login',
+        'https://thrift-shop-app.herokuapp.com/api/user/login',
         {
           email,
           password,
@@ -27,6 +28,7 @@ const Login = ({ navigation }) => {
       if (response.status === 200) {
         dispatch(setLoggedIn(true));
         dispatch(setUser(response.data.user));
+        AsyncStorage.setItem('user', JSON.stringify(response.data.user));
         navigation.navigate('Home');
       }
     } catch (error) {

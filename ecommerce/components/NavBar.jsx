@@ -12,12 +12,10 @@ import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 import { useSelector, useDispatch } from 'react-redux';
 const NavBar = ({ User }) => {
   const navigation = useNavigation();
-  console.log(navigation);
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state);
+  const { isLoggedIn } = useSelector((state) => state.login);
   const [loggedInUser, setLoggedInUser] = useState('Login');
   const handlePress = (route) => {
-    console.log(navigation);
     navigation.navigate(route);
   };
 

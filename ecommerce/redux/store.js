@@ -1,6 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import loginReducer from './loginReducer';
-
+import cartReducer from './cartReducer';
 export default configureStore({
-  reducer: loginReducer,
+  reducer: {
+    login: loginReducer,
+    cart: cartReducer,
+  },
 });

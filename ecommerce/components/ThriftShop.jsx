@@ -1,17 +1,35 @@
 import { StyleSheet, SafeAreaView, Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import NavBar from './NavBar';
+import { useState, useEffect } from 'react';
 import HomeScreen from './HomeScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './Login';
 import SignUp from './SignUp';
 import Profile from './Profile';
-import { useSelector } from 'react-redux';
+import Cart from './Cart';
+import SingleProduct from './SingleProduct';
+import { useSelector, useDispatch } from 'react-redux';
+import { setLoggedIn } from '../redux/loginReducer';
 export default function ThriftShop() {
+  const dispatch = useDispatch();
+  const [previousData, setPreviousData] = useState([]);
   const Stack = createNativeStackNavigator();
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
-  const user = useSelector((state) => state.user);
-  console.log(user);
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const user = useSelector((state) => state.login.user);
+  useEffect(() => {
+    AsyncStorage.getItem('user')
+      .then((value) => {
+        if (value) {
+          setPreviousData(JSON.parse(value));
+          console.log(previousData);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   console.log(isLoggedIn);
   return (
     <NavigationContainer>
@@ -31,6 +49,8 @@ export default function ThriftShop() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Cart" component={Cart} />
+          <Stack.Screen name="SingleProduct" component={SingleProduct} />
           {isLoggedIn ? (
             <Stack.Screen name="Profile" component={Profile} />
           ) : null}

@@ -8,7 +8,6 @@ const SignUp = ({ navigation }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
   const [showPassword, setShowPassword] = useState(true);
-  console.log(navigation)
   const createAccount = async () => {
     if (password !== confirmPassword) {
       alert('Passwords do not match');
@@ -28,7 +27,7 @@ const SignUp = ({ navigation }) => {
     }
     try {
       const response = await axios.post(
-        'http://192.168.242.78:5000/api/user/signup',
+        'https://thrift-shop-app.herokuapp.com/api/user/signup',
         {
           email,
           password,
