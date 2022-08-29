@@ -9,7 +9,6 @@ import { setLoggedIn, setUser } from '../redux/loginReducer';
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.login);
-  console.log(isLoggedIn);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(true);

@@ -9,7 +9,6 @@ const Profile = () => {
   const navigation = useNavigation();
   const [revealed, setRevealed] = useState(false);
   const User = useSelector((state) => state.login.user);
-  console.log(User);
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const dispatch = useDispatch();
   return (

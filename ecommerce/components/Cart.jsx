@@ -16,8 +16,6 @@ import { removeFromCart } from '../redux/cartReducer';
 const Cart = () => {
   const dispatch = useDispatch();
   const { cart, total } = useSelector((state) => state.cart);
-  console.log(cart);
-
   return (
     <View>
       <Text style={styles.cartHeader}>Cart</Text>

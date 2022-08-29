@@ -23,14 +23,12 @@ export default function ThriftShop() {
       .then((value) => {
         if (value) {
           setPreviousData(JSON.parse(value));
-          console.log(previousData);
         }
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
-  console.log(isLoggedIn);
   return (
     <NavigationContainer>
       <SafeAreaView style={styles.droidSafeArea}>
@@ -50,9 +48,11 @@ export default function ThriftShop() {
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Cart" component={Cart} />
-          <Stack.Screen name="SingleProduct" component={SingleProduct} />
           {isLoggedIn ? (
-            <Stack.Screen name="Profile" component={Profile} />
+            <>
+              <Stack.Screen name="SingleProduct" component={SingleProduct} />
+              <Stack.Screen name="Profile" component={Profile} />
+            </>
           ) : null}
         </Stack.Navigator>
         {/* <HomeScreen /> */}
