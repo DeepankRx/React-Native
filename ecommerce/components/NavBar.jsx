@@ -1,24 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   AppBar,
   IconButton,
   Button,
   Avatar,
 } from '@react-native-material/core';
-import Profile from './Profile';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { setLoggedIn } from '../redux/loginReducer';
+import { setUser } from '../redux/loginReducer';
 import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 import { useSelector, useDispatch } from 'react-redux';
 const NavBar = ({ User }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.login);
-  const [loggedInUser, setLoggedInUser] = useState('Login');
   const handlePress = (route) => {
     navigation.navigate(route);
   };
-
+  const [userFromStorage, setUserFromStorage] = useState(null);
+  console.log(User);
+  useEffect(() => {
+    console.log('user is not logged in');
+    const fetchFromStorage = async () => {
+      try {
+        const value = await AsyncStorage.getItem('user');
+        if (value !== null) {
+          setUserFromStorage(JSON.parse(value));
+          dispatch(setUser(JSON.parse(value)));
+        }
+      } catch (error) {
+        navigation.navigate('Login');
+      }
+    };
+    fetchFromStorage();
+  }, []);
+  console.log(userFromStorage);
   return (
     <AppBar
       style={{ backgroundColor: '#ff4081' }}
@@ -36,7 +52,12 @@ const NavBar = ({ User }) => {
           title={
             isLoggedIn ? (
               <IconButton
-                icon={<Avatar label={User.name} size={28} />}
+                icon={
+                  <Avatar
+                    label={User ? User.name : userFromStorage.name}
+                    size={28}
+                  />
+                }
                 onPress={() => {
                   navigation.navigate('Profile');
                   // dispatch(setLoggedIn(false));

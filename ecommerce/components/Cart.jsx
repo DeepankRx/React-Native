@@ -6,14 +6,14 @@ import {
   StyleSheet,
   Platform,
 } from 'react-native';
-
+import Checkout from './Checkout';
 import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 import { DataTable, IconButton } from 'react-native-paper';
 import { Stack, FAB } from '@react-native-material/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeFromCart } from '../redux/cartReducer';
 
-const Cart = () => {
+const Cart = ({ navigation }) => {
   const dispatch = useDispatch();
   const { cart, total } = useSelector((state) => state.cart);
   return (
@@ -82,6 +82,9 @@ const Cart = () => {
             <IconButton
               variant="contained"
               size={40}
+              onPress={() => {
+                navigation.navigate('Checkout');
+              }}
               icon={(props) => (
                 <Icon name="cart-check" color={'#fff'} {...props} />
               )}

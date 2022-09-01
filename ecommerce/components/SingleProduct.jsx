@@ -4,13 +4,18 @@ import {
   Image,
   ScrollView,
   TouchableWithoutFeedback,
+  Button,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import SimilarProduct from './SimilarProduct';
 import Loading from './Loading';
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart } from '../redux/cartReducer';
 import { useRoute } from '@react-navigation/native';
+
 const SingleProduct = () => {
+  const dispatch = useDispatch();
   const route = useRoute();
   const [product, setProduct] = useState({});
   useEffect(() => {
@@ -50,6 +55,21 @@ const SingleProduct = () => {
           <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 10 }}>
             Category : {product.category}
           </Text>
+          <Button
+            title="Add To Cart"
+            style={{
+              backgroundColor: '#ff4081',
+              marginTop: 10,
+              marginBottom: 10,
+            }}
+            onPress={() => {
+              dispatch(
+                addToCart({
+                  product,
+                })
+              );
+            }}
+          />
         </View>
       ) : (
         <Loading />

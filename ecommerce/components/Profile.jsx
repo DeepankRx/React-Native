@@ -3,14 +3,23 @@ import { View, Text, Image } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { IconButton, Button, Box, Stack } from '@react-native-material/core';
 import Icon from '@expo/vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setLoggedIn } from '../redux/loginReducer';
 import { useNavigation } from '@react-navigation/native';
 const Profile = () => {
   const navigation = useNavigation();
   const [revealed, setRevealed] = useState(false);
   const User = useSelector((state) => state.login.user);
+  if (!User) {
+    navigation.navigate('Login');
+  }
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const dispatch = useDispatch();
+  const handleLogout = async () => {
+    dispatch(setLoggedIn(false));
+    await AsyncStorage.removeItem('user');
+  };
+
   return (
     <View style={{ flex: 1 }}>
       {/* <Image
@@ -75,7 +84,7 @@ const Profile = () => {
               style={{ marginTop: 20 }}
             />
           )}
-          onPress={() => dispatch(setLoggedIn(false))}
+          onPress={() => handleLogout()}
         />
       </Stack>
     </View>

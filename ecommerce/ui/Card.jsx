@@ -42,6 +42,7 @@ const Card = ({ product }) => {
         color="#ff4081"
         style={{
           backgroundColor: '#fff',
+          marginTop: 50,
         }}
         onPress={() => dispatch(addToCart({ product }))}
       />

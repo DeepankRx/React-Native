@@ -28,7 +28,7 @@ export default function SimilarProduct({ category }) {
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, marginTop: 200 }}>
       <Text
         style={{
           fontSize: 20,
