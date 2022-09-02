@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Button } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Button,
+  Alert,
+} from 'react-native';
 import { TextInput } from '@react-native-material/core';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
+import { clearCart } from '../redux/cartReducer';
 const AddressScreen = (props) => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.login.user);
-  console.log(user);
+  const cart = useSelector((state) => state.cart);
   const navigation = useNavigation();
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -30,21 +39,33 @@ const AddressScreen = (props) => {
       alert('Please fill all the fields');
       return;
     }
-
-    const user = await AsyncStorage.setItem(
-      'address',
-      JSON.stringify({
-        name,
-        phoneNumber,
-        pincode,
-        address,
-        locality,
-        city,
-        state,
-        landmark,
-      })
-    );
-
+    try {
+      const response = await axios.post(
+        `https://thrift-shop-app.herokuapp.com/api/cart/postCartOfUser/${user._id}`,
+        {
+          products: cart.cart,
+          address: {
+            name,
+            phoneNumber,
+            pincode,
+            address,
+            locality,
+            city,
+            state,
+            landmark,
+          },
+          totalAmount: cart.total,
+        }
+      );
+      if (response.status === 200) {
+        dispatch(clearCart());
+        navigation.navigate('OrderPlaced');
+      }
+    } catch (err) {
+      Alert.alert(err.message);
+      console.log(err);
+    }
+    //empty cart
     navigation.navigate('Home');
   };
 

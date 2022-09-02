@@ -23,7 +23,6 @@ export default function ThriftShop() {
   AsyncStorage.getItem('user')
     .then((data) => {
       if (data) {
-        console.log(JSON.parse(data));
         dispatch(setLoggedIn(true));
       }
     })

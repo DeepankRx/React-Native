@@ -18,9 +18,8 @@ const NavBar = ({ User }) => {
     navigation.navigate(route);
   };
   const [userFromStorage, setUserFromStorage] = useState(null);
-  console.log(User);
+
   useEffect(() => {
-    console.log('user is not logged in');
     const fetchFromStorage = async () => {
       try {
         const value = await AsyncStorage.getItem('user');
@@ -34,7 +33,6 @@ const NavBar = ({ User }) => {
     };
     fetchFromStorage();
   }, []);
-  console.log(userFromStorage);
   return (
     <AppBar
       style={{ backgroundColor: '#ff4081' }}
