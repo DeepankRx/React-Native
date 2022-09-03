@@ -59,7 +59,7 @@ const AddressScreen = (props) => {
       );
       if (response.status === 200) {
         dispatch(clearCart());
-        navigation.navigate('OrderPlaced');
+        navigation.navigate('OrderHistory');
       }
     } catch (err) {
       Alert.alert(err.message);

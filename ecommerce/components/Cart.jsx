@@ -1,15 +1,7 @@
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Platform,
-} from 'react-native';
-import Checkout from './Checkout';
+import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
 import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 import { DataTable, IconButton } from 'react-native-paper';
-import { Stack, FAB } from '@react-native-material/core';
+import { Stack } from '@react-native-material/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeFromCart } from '../redux/cartReducer';
 
