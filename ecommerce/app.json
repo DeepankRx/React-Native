@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "todo",
-    "slug": "todo",
+    "name": "ecommerce",
+    "slug": "ecommerce",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,10 +25,15 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.deepank.todo"
+      "package": "com.deepank.ecommerce"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "575c9137-afa2-4e18-ba99-87eada081f88"
+      }
     }
   }
 }
